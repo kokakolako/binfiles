@@ -1,0 +1,9 @@
+#!/usr/bin/zsh
+
+for i in **/*.md ; do
+    if [[ "$i" != "Readme.md" ]]; then
+        pandoc -o "$( echo "$i" | sed s/.md/.pdf/g )" "$i"
+    fi
+done
+
+

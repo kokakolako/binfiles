@@ -1,0 +1,68 @@
+#!/usr/bin/zsh
+
+# Stop all the noise:
+# -------------------------------------------
+
+# If vlc is running ...
+if [[ -n "$( ps -e | grep vlc )" ]]; then
+    # ... and vlc is playing music ...
+    if [[ -n "$( $HOME/.bin/control_vlc status | grep 'play state: 3' )" ]]; then
+        # ... stop vlc.
+        $HOME/.bin/control_vlc stop > /dev/null
+        exit 0
+    fi
+    # If mpd also playing music ...
+    if [[ -n "$( mpc status | grep 'volume: n/a' )" ]]; then
+        # ... stop mpd.
+        mpc pause > /dev/null
+        exit 0
+    fi
+fi
+
+# If mpd playing music (because it running at boot anyway) ...
+if [[ -n "$( mpc status | grep playing )" ]]; then
+    # ... stop mpd.
+    mpc pause > /dev/null
+    # If vlc playing also music ...
+    if [[ -z "$( $HOME/.bin/control_vlc status | grep 'play state: 3' )" ]]; then
+        # ... stop vlc.
+        $HOME/.bin/control_vlc stop > /dev/null
+        exit 0
+    fi
+fi
+
+# Start music:
+# -------------------------------------------
+
+# If vlc is running ...
+if [[ -n "$( ps -e | grep vlc )" ]]; then
+    # ... and vlc is not playing music ...
+    if [[ -n "$( $HOME/.bin/control_vlc status | grep 'play state: 3' )" ]]; then
+        # ... aaaaand mpd is not allready playing music ...
+        if [[ -n "$( mpc status | grep 'playing' )" ]]; then
+            # ... start playing music with vlc.
+            $HOME/.bin/control_vlc play > /dev/null
+            exit 0
+        fi
+    fi
+fi
+
+# If mpd is not playing music, you can easily ...
+if [[ -z "$( mpc status | grep playing )" ]]; then
+    # ... start mpd.
+    mpc play > /dev/null
+    exit 0
+fi
+
+# If mpd is deactivated ...
+if [[ -n "$( mpc status | grep 'volumen: n/a' )" ]]; then
+    # ... and vlc is running ...
+    if [[ -n "$( ps -e | grep vlc )" ]]; then
+        # ... but not playing music ...
+        if [[ -n "$( $HOME/.bin/control_vlc status | grep 'play state: 3' )" ]]; then
+            # ... it is allowed to start playing music with vlc
+            $HOME/.bin/control_vlc play > /dev/null
+            exit 0
+        fi
+    fi
+fi

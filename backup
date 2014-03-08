@@ -1,0 +1,9 @@
+#!/usr/bin/zsh
+
+if [[ -d "/media/TOSHIBA EXT/" ]]; then
+    rsync -a --delete /home /media/TOSHIBA\ EXT/
+    notify-send "Your backup is done!"
+else
+    notify-send "Please mount an external hard-drive to backup your files!"
+fi
+
