@@ -1,0 +1,12 @@
+#!/usr/bin/zsh
+
+local cpu_last=$(bc <<< $( ps -eo pcpu | grep -vE '^\s*(0.0|%CPU)' | sed -n '1h;$!H;$g;s/\n/ +/gp' ) )
+if [[ $cpu_last =~ [0-9]\.[0-9] ]]; then
+    echo "0$cpu_last%"
+elif [[ $cpu_last =~ [0-9]{2}\.[0-9] ]]; then
+    echo "$cpu_last%"
+else
+    echo "No valid input"
+    exit 1
+fi
+
