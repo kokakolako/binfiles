@@ -1,0 +1,17 @@
+#!/usr/bin/python
+
+import i3, sys
+
+focused_win = i3.filter( focused=True )
+
+def print_prop(prop):
+    print( focused_win[0]["window_properties"][prop] )
+
+if len(sys.argv) < 2:
+    sys.exit('Usage: %s [parameter]' % sys.argv[0] )
+
+if sys.argv[1] == "class":
+    print_prop("class")
+if sys.argv[1] == "title":
+    print_prop("title")
+
