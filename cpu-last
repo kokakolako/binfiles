@@ -2,6 +2,8 @@
 
 local cpu_last=$(bc <<< $( ps -eo pcpu | grep -vE '^\s*(0.0|%CPU)' | sed -n '1h;$!H;$g;s/\n/ +/gp' ) )
 if [[ `echo $cpu_last | wc -m` == "4" ]]; then 
+    echo "00$cpu_last%"
+elif [[ `echo $cpu_last | wc -m` == "5" ]]; then 
     echo "0$cpu_last%"
 else
     echo "$cpu_last%"
