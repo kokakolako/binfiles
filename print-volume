@@ -1,0 +1,9 @@
+#!/usr/bin/zsh
+volume=$( amixer get Master | grep -o "\[[0-9]*\%\]" | tr -d "[" | tr -d "]" )
+if [[ "${#volume}" == "2" ]]; then
+    print "00$volume"
+elif [[ "${#volume}" == "3" ]]; then
+    print "0$volume"
+else
+    print "$volume"
+fi
