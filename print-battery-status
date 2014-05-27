@@ -8,6 +8,8 @@ if [ -f /sys/class/power_supply/BAT1/capacity ]; then
         echo "+$batt_capacity"
     elif [[ "$batt_status" == "Discharging"  ]]; then
         echo "-$batt_capacity"
+    elif [[ "$batt_status" == "Full"  ]]; then
+        echo "~100"
     fi
 else
     echo "~"

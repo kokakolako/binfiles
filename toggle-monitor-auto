@@ -1,13 +1,64 @@
-#!/bin/sh
+#!/bin/zsh
 
-hdmi_state=`xrandr --query | grep "HDMI1"`
-lvds1_state=`xrandr --query | grep "LVDS1"`
+local hdmi_device="$( cat /sys/class/drm/card0-HDMI-A-1/status )"
+local vga_device="$( cat /sys/class/drm/card0-VGA-1/status )"
 
-if [ -n "$hdmi_state" ]; then
-    xrandr --output LVDS1 --off --output HDMI1 --auto
-elif [ -z "$hdmi_state" ]; then
-    xrandr --output HDMI1 --off --output LVDS1 --auto
-else
-    print "ERROR: Can't detect another monitor"
-fi
+case $1 in
 
+    -w | --wait )
+        if [ inotifywait -t 7200 "/sys/class/drm/card0-HDMI-A-1/status" ]; then
+            case $hdmi_device in
+                connected)
+                    $HOME/.bin/toggle-monitor -l
+                ;;
+                disconnected)
+                    $HOME/.bin/toggle-monitor -s
+                ;;
+            esac
+        fi
+        if [ inotifywait -t 7200 "/sys/class/drm/card0-VGA-1/status" ]; then
+            case $hdmi_device in
+                connected)
+                    $HOME/.bin/toggle-monitor -l
+                ;;
+                disconnected)
+                    $HOME/.bin/toggle-monitor -s
+                ;;
+            esac
+        fi
+    ;;
+
+    -e | --exec )
+        case $hdmi_device in
+            connected)
+                $HOME/.bin/toggle-monitor -l
+                exit 0
+            ;;
+            disconnected)
+                if [[ "$vga_device" == "connected" ]]; then
+                    $HOME/.bin/toggle-monitor -l
+                    exit 0
+                else
+                    $HOME/.bin/toggle-monitor -s
+                    exit 0
+                fi
+            ;;
+        esac
+        case $vga_device in
+            connected)
+                $HOME/.bin/toggle-monitor -l
+                exit 0
+            ;;
+            disconnected)
+                if [[ "$hdmi_device" == "connected" ]]; then
+                    $HOME/.bin/toggle-monitor -l
+                    exit 0
+                else
+                    $HOME/.bin/toggle-monitor -s
+                    exit 0
+                fi
+            ;;
+        esac
+    ;;
+
+esac
