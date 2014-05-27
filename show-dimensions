@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+identify SpQIxPp.jpg | grep -owE "[0-9]*x[0-9]*" | head -n 1
