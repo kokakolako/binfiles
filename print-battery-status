@@ -1,6 +1,5 @@
 #!/usr/bin/zsh
 
-
 if [ -f /sys/class/power_supply/BAT1/capacity ]; then
     batt_status="$( cat /sys/class/power_supply/BAT1/status )"
     batt_capacity="$( cat /sys/class/power_supply/BAT1/capacity )"

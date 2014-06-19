@@ -1,19 +1,23 @@
 #!/bin/zsh
 
-curr_vol=( `amixer scontents | grep Master -A 6 | grep "Left:\|Right:" | grep -o -e "[0-9][0-9]\%" | tr -d "%" | tr "\n" " "` )
+# curr_vol=( `amixer scontents | grep Master -A 6 | grep "Left:\|Right:" | grep -o -e "[0-9][0-9]\%" | tr -d "%" | tr "\n" " "` )
 
-if [[ "$( env | grep VOL_BEFORE_MUTE )" == "" ]]; then
-    if [[ "${curr_vol[0]}" == "" || "${curr_vol[1]}" == "" ]]; then
-        echo "Both sinks are undefined"
-        exit 1
-    elif [[ "${curr_vol[0]}" == "${vol[1]}" ]]; then
-        export VOL_BEFORE_MUTE=$curr_vol
-        amixer set -c 0 Master 25 unmute
-    elif [[ "${curr_vol[0]}" != "${vol[0]}" ]]; then
-        export VOL_BEFORE_MUTE=$curr_vol
-    fi
-elif [[ "$( env | grep VOL_BEFORE_MUTE )" != "" ]]; then
-    amixer set -c 0 Master "$VOL_BEFORE_MUTE" unmute
+# if [[ "$( env | grep VOL_BEFORE_MUTE )" == "" ]]; then
+#     if [[ "${curr_vol[0]}" == "" || "${curr_vol[1]}" == "" ]]; then
+#         echo "Both sinks are undefined"
+#         exit 1
+#     elif [[ "${curr_vol[0]}" == "${vol[1]}" ]]; then
+#         export VOL_BEFORE_MUTE=$curr_vol
+#         amixer set -c 0 Master 25 unmute
+#     elif [[ "${curr_vol[0]}" != "${vol[0]}" ]]; then
+#         export VOL_BEFORE_MUTE=$curr_vol
+#     fi
+# elif [[ "$( env | grep VOL_BEFORE_MUTE )" != "" ]]; then
+#     amixer set -c 0 Master "$VOL_BEFORE_MUTE" unmute
+# fi
+
+if [[ "$(amixer get Master | grep '\[on\]')" == "[on]" ]]; then
+    amixer set Master mute
+elif [[ "$(amixer get Master | grep '\[off\]')" == "[off]" ]]; then
+    amixer set Master unmute
 fi
-
-

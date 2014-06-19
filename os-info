@@ -1,0 +1,38 @@
+#!/bin/bash
+
+create_line () {
+    local name=$1
+    local cmd=$2
+    echo -e "\e[31m${name}:\e[0m\t${cmd}"
+}
+
+vga () {
+    local vga_cards="$( lspci | grep VGA | sed -e "s/[0-9][0-9]:[0-9][0-9].0//ig" -e "s/VGA compatible controller://g" -e "s/(.*)//g" -e "s/  //1" )"
+}
+
+echo -e "\e[1;34m─────── ${USER}\e[0m @ \e[1;34m$( hostname ) ─────────────────────────────\e[0m"
+
+create_line distro \
+    "$( cat /etc/*-release | grep -w NAME | tr -d '"='  | sed "s/NAME//g" ) ($( uname -m ))"
+
+create_line kernel \
+    "$( uname -r | sed -e 's/[a-z]*//ig' -e 's/\-//2g' )"
+
+create_line cpu \
+    "$( cat /proc/cpuinfo | grep -w "model name" | head -n 1 | sed -e "s/.*\s.*:\s//gi" )"
+
+create_line term \
+    $TERM
+
+create_line shell \
+    $SHELL
+
+create_line uptime \
+    "$( echo $( uptime ) | grep -Eo "[up]{2}\s[0-9]*:[0-9]*" | sed "s/up\s//g" )"
+
+create_line disk \
+    "$( df -Tlh --total -t ext4 -t ext3 -t ext2 -t reiserfs | tail -n 1 | grep -Eo "[0-9]*%" )"
+
+create_line vga \
+
+echo -e "\e[34m──────────────────────────────────────────────────────\e[0m"

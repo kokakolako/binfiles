@@ -19,7 +19,7 @@ if [[ -n "$( ps -e | grep vlc )" ]]; then
     fi
 fi
 
-# If mpd playing music (because it running at boot anyway) ...
+# If mpd is playing music (because it running at boot anyway) ...
 if [[ -n "$( mpc status | grep playing )" ]]; then
     # ... stop mpd.
     mpc pause > /dev/null
@@ -30,6 +30,29 @@ if [[ -n "$( mpc status | grep playing )" ]]; then
         exit 0
     fi
 fi
+
+# If mpv is running...
+if [[ "$( ps -e | grep -ow mpv )" == "mpv" ]]; then
+    # stop mpv.
+    echo "pause" > $HOME/.config/mpv/mpv-control
+    # If mpd is playing music...
+    if [[ -n "$( mpc status | grep playing )" ]]; then
+    # ... stop mpd.
+        mpc pause > /dev/null
+        # If vlc playing also music ...
+        if [[ -z "$( $HOME/.bin/control-vlc status | grep 'play state: 3' )" ]]; then
+            # ... stop vlc.
+            $HOME/.bin/control-vlc stop > /dev/null
+            exit 0
+        fi
+    fi
+    if [[ -z "$( $HOME/.bin/control-vlc status | grep 'play state: 3' )" ]]; then
+        # ... stop vlc.
+        $HOME/.bin/control-vlc stop > /dev/null
+        exit 0
+    fi
+fi
+
 
 # Start music:
 # -------------------------------------------

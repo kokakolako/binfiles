@@ -9,6 +9,6 @@ elif [ $touchpad_state == 1 ]; then
     synclient TouchpadOff=0
     notify-send "Das Touchpad ist aktiviert"
 else
-    print "ERROR: Can't detect the TouchpadOff status!"
+    echo "ERROR: Can't detect the TouchpadOff status!"
 fi
 
