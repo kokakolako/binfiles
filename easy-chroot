@@ -1,0 +1,6 @@
+sudo mount /dev/sda4 /mnt
+sudo mount /dev/sda1 /mnt/boot/efi
+sudo mount -t devtmpfs /dev /mnt/dev
+sudo mount -t devpts /dev/pts /mnt/dev/pts
+sudo mount -t sysfs /sys /mnt/sys
+sudo mount -t proc /proc /mnt/proc
