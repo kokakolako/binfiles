@@ -1,0 +1,76 @@
+#!/usr/bin/zsh
+
+volume="$( amixer -c 0 | grep -4 'Master' | grep -Ewo '[0-9]{2,3}%' | tr -d '%' )"
+sys_foreground_color="^fg($( cat $HOME/.config/X11/Xresources | grep 'foreground' | grep '[#0-9A-Fa-f]{6}'))"
+sys_background_color="^fg($( cat $HOME/.config/X11/Xresources | grep 'background' | grep '[#0-9A-Fa-f]{6}'))"
+bar=
+
+case $volume in
+    [0-4] )
+        bar="$sys_foreground_color─$sys_background_color───────────────────"
+    ;;
+    [4-9] )
+        bar="$sys_foreground_color──$sys_background_color──────────────────"
+    ;;
+    1[0-4] )
+        bar="$sys_foreground_color───$sys_background_color─────────────────"
+    ;;
+    1[5-9] )
+        bar="$sys_foreground_color────$sys_background_color────────────────"
+    ;;
+    2[0-4] )
+        bar="$sys_foreground_color─────$sys_background_color───────────────"
+    ;;
+    2[5-9] )
+        bar="$sys_foreground_color──────$sys_background_color──────────────"
+    ;;
+    3[0-4] )
+        bar="$sys_foreground_color───────$sys_background_color─────────────"
+    ;;
+    3[5-9] )
+        bar="$sys_foreground_color────────$sys_background_color────────────"
+    ;;
+    4[0-4] )
+        bar="$sys_foreground_color─────────$sys_background_color───────────"
+    ;;
+    4[5-9] )
+        bar="$sys_foreground_color──────────$sys_background_color──────────"
+    ;;
+    5[0-4] )
+        bar="$sys_foreground_color───────────$sys_background_color─────────"
+    ;;
+    5[5-9] )
+        bar="$sys_foreground_color────────────$sys_background_color────────"
+    ;;
+    6[0-4] )
+        bar="$sys_foreground_color─────────────$sys_background_color───────"
+    ;;
+    6[5-9] )
+        bar="$sys_foreground_color──────────────$sys_background_color──────"
+    ;;
+    7[0-4] )
+        bar="$sys_foreground_color───────────────$sys_background_color─────"
+    ;;
+    7[5-9] )
+        bar="$sys_foreground_color────────────────$sys_background_color────"
+    ;;
+    8[0-4] )
+        bar="$sys_foreground_color─────────────────$sys_background_color───"
+    ;;
+    8[5-9] )
+        bar="$sys_foreground_color──────────────────$sys_background_color──"
+    ;;
+    9[0-4] )
+        bar="$sys_foreground_color───────────────────$sys_background_color─"
+    ;;
+    9[5-9] )
+        bar="$sys_foreground_color────────────────────$sys_background_color"
+    ;;
+    100 )
+        bar="$sys_foreground_color────────────────────$sys_background_color"
+    ;;
+esac
+
+echo $bar
+(echo "$bar"; sleep 20 ) |\
+    dzen2 -x 500 -y 500 -w 300 -h 20
