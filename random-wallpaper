@@ -1,3 +1,3 @@
 #!/usr/bin/zsh
 
-hsetroot -full $HOME/bilder/Hintergründe/"$( ls ~/bilder/Hintergründe/ | shuf -n 1 )" > /dev/null
+hsetroot -full "$( find ~/pictures/Hintergründe/ -type f | shuf -n 1 )" > /dev/null
