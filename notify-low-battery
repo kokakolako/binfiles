@@ -1,0 +1,7 @@
+#!/usr/bin/zsh
+
+while inotifywait -t 300 -e modify /sys/class/power_supply/BAT1/capacity; do
+    [[ $( cat /sys/class/power_supply/BAT1/capacity ) -lt 15 ]] &&\
+        notify-send -u critical "The battery-capacity is lesser than 15%"
+done
+
