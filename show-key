@@ -1,0 +1,5 @@
+#!/bin/sh
+
+key="$@"
+( echo "^fg(#ffffff)^i($HOME/.config/icons/xbm/${key}.xbm)"; sleep 0.5 ) |\
+    dzen2 -x 880 -y 500 -w 150 -h 150 -bg "#FF0055"
