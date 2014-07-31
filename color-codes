@@ -1,9 +1,9 @@
 #!/bin/bash
-echo -e "\n\e[1;47m General syntax:                                                     \e[0m\n"
+echo -e "\n\e[4;47mSyntax:\e[0m\n"
 
 echo -e "\\\e[\e[46;37mValue;Value;...\e[0mm\n"
 
-echo -e "\e[1;47m Values:                                                             \e[0m\n"
+echo -e "\e[4;47mValues:\e[0m\n"
 
 echo -e "\e[1mBackground colors:\tForeground colors:\tStyles:\n"
 echo -e "\e[40m \e[37mblack       \e[0m  \e[0m 40\t\e[40m \e[37mblack       \e[0m  \e[0m 30\tReset all   0"
