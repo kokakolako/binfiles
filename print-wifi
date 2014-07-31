@@ -1,3 +1,0 @@
-#!/usr/bin/zsh
-
-iwconfig wlp8s0 | grep ESSID | cut -c 33- | tr -d '" '
