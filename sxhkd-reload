@@ -1,0 +1,5 @@
+#!/bin/sh
+
+kill -s USR1 $( pidof sxhkd )
+[ $? == 0 ] && echo "Sucessfully reloaded sxhkd" || echo "An error occured at the reloading of sxhkd"
+
