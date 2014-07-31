@@ -8,6 +8,16 @@ create_line () {
 
 vga () {
     local vga_cards="$( lspci | grep VGA | sed -e "s/[0-9][0-9]:[0-9][0-9].0//ig" -e "s/VGA compatible controller://g" -e "s/(.*)//g" -e "s/  //1" )"
+    IFS="\n"
+}
+
+detect_wm() {
+    local wm_list="awesome herbstluftwm beryl blackbox bspwm dwm enlightenment fluxbox fvwm i3 icewm kwin metacity musca openbox pekwm ratpoison scrotwm subtle monsterwm wmaker wmfs wmii xfwm4 emerals compiz xmonal qtile wingo"
+    for wm in $wm_list; do
+        if [[ $wm == $( ps -e | grep -o $wm ) ]]; then
+            echo $wm
+        fi
+    done
 }
 
 echo -e "\e[1;34m─────── ${USER}\e[0m @ \e[1;34m$( hostname ) ─────────────────────────────\e[0m"
@@ -25,14 +35,15 @@ create_line term \
     $TERM
 
 create_line shell \
-    $SHELL
+    "$( basename $SHELL )"
 
 create_line uptime \
-    "$( echo $( uptime ) | grep -Eo "[up]{2}\s[0-9]*:[0-9]*" | sed "s/up\s//g" )"
+    "$( uptime -p )"
 
 create_line disk \
     "$( df -Tlh --total -t ext4 -t ext3 -t ext2 -t reiserfs | tail -n 1 | grep -Eo "[0-9]*%" )"
 
-create_line vga \
+ create_line wm \
+     "$( detect_wm )"
 
 echo -e "\e[34m──────────────────────────────────────────────────────\e[0m"
