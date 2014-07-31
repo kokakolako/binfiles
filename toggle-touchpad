@@ -1,12 +1,14 @@
 #!/bin/sh
 
-touchpad_state=`synclient -l | grep TouchpadOff | awk '{print $3}'` 
+touchpad_state=`synclient -l | grep TouchpadOff | awk '{print $3}'`
 
 if [ $touchpad_state == 0 ]; then
     synclient TouchpadOff=1
+    $HOME/.bin/show-key touchpad_off
     notify-send "Das Touchpad ist deaktiviert"
 elif [ $touchpad_state == 1 ]; then
     synclient TouchpadOff=0
+    $HOME/.bin/show-key touchpad_on
     notify-send "Das Touchpad ist aktiviert"
 else
     echo "ERROR: Can't detect the TouchpadOff status!"
