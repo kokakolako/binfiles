@@ -1,4 +1,4 @@
-#!/usr/bin/zsh
+#!/bin/zsh
 
 for i in **/*.md ; do
     if [[ "$i" != "Readme.md" ]]; then

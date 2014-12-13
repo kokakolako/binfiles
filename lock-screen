@@ -1,5 +1,6 @@
-#!/usr/bin/zsh
+#!/bin/zsh
 
 scrot /tmp/screenshot.png
 convert /tmp/screenshot.png -blur 0x5 /tmp/screenshot.png
+sudo powerdown &> /dev/null &
 i3lock -i /tmp/screenshot.png

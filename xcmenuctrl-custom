@@ -1,0 +1,37 @@
+#!/bin/zsh
+
+args="$2"
+case $args in
+    "-d" | "--delete" )
+        delete_entry "$3"
+    ;;
+esac
+
+function main () {
+    xcmenu --dmenu > /tmp/clipboard.tmp
+    local clipboard_entry="$( xcmenu --dmenu | dmenu \
+        -l 21 \
+        -x 100 -y 300 \
+        -w 1720 \
+        -i \
+        -nb '#101010' \
+        -sb '#FF0055' \
+        -nf '#FFFFFF' \
+        -sf '#101010' \
+        -fn 'Inconsolata for Powerline-14' \
+        -dim 0.8\
+        )"
+    ## Removing the pattern "*: " from the beginning of $clipboard_entry and
+    ## copying it to the system's cliboard
+    printf "${clipboard_entry#*: }" | xcmenu -ci &> /dev/null
+}
+main
+
+## Sometimes the clipboard contains entries
+function delete_entry () {
+    entry="$@"
+    search_for_entry="$( cat /tmp/cliboard.tmp | grep \"$entry\" )"
+    [[ "$( wc -l <( $search_for_entry ) )" -gt 1 ]] \
+        && printf "Please be more specific: You defined a very vague search-term"
+    cut -c "-1"
+}

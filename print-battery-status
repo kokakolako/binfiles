@@ -1,8 +1,8 @@
-#!/usr/bin/zsh
+#!/bin/zsh
 
 if [ -f /sys/class/power_supply/BAT1/capacity ]; then
-    batt_status="$( cat /sys/class/power_supply/BAT1/status )"
-    batt_capacity="$( cat /sys/class/power_supply/BAT1/capacity )"
+    local batt_status="$( cat /sys/class/power_supply/BAT1/status )"
+    local batt_capacity="$( cat /sys/class/power_supply/BAT1/capacity )"
     if [[ "$batt_status" == "Charging"  ]]; then
         echo "+$batt_capacity"
     elif [[ "$batt_status" == "Discharging"  ]]; then

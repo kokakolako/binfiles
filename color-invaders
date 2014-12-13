@@ -1,5 +1,5 @@
 #!/bin/bash
-#
+
 # ANSI color scheme script featuring Space Invaders
 #
 # Original: http://crunchbanglinux.org/forums/post/126921/#p126921

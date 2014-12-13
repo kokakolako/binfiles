@@ -1,4 +1,4 @@
-#!/usr/bin/zsh
+#!/bin/zsh
 
 local cpu_last=$(bc <<< $( ps -eo pcpu | grep -vE '^\s*(0.0|%CPU)' | sed -n '1h;$!H;$g;s/\n/ +/gp' ) )
 if [[ `echo $cpu_last | wc -m` == "4" ]]; then

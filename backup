@@ -1,4 +1,4 @@
-#!/usr/bin/zsh
+#!/bin/zsh
 
 if [[ -d "/media/TOSHIBA EXT/" ]]; then
     rsync -a --delete /home /media/TOSHIBA\ EXT/
